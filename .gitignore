@@ -1,0 +1,8 @@
+# Arquivos
+.env
+
+# Diretorios
+__pycache__/
+**/__pycache__
+venv/
+migrations/

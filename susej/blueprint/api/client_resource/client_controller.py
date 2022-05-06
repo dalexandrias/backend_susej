@@ -13,6 +13,8 @@ client_schemas = ClientSchemas(api)
 
 @client_ns.route('/')
 class CreateClient(Resource):
+    """Clase responsavel para gerenciar as rotas de entrada e saida"""
+    
     def __init__(self, api=None, *args, **kwargs):
         super().__init__(api, *args, **kwargs)
         self.client_service = ClientService()

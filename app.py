@@ -17,3 +17,5 @@ def create_app():
     # Atualiza as alterações das tabelas de dados
     auth_migrate.init_app(app)
     client_migrate.init_app(app)
+    
+    return app

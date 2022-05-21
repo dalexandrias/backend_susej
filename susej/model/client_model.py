@@ -48,14 +48,14 @@ class Client(db.Model, SerializerMixin):
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False)
-    client_address = db.relationship('ClientAddress', backref='CLIENT')
+    address = db.relationship('ClientAddress', backref='CLIENT', lazy=True)
 
     def __init__(
         self,
         nome: str,
         sobrenome: str,
         email: str,
-        address: ClientAddress
+        address: list[ClientAddress]
     ) -> None:
         self.nome = nome
         self.sobrenome = sobrenome

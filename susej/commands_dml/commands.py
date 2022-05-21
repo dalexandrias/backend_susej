@@ -1,4 +1,5 @@
 from susej.extension.database import db
+from susej.model.client_model import Client, ClientAddress
 
 
 def insert_table(table: object) -> None:
@@ -22,3 +23,9 @@ def delete_table(all=False, **args) -> None:
 def commit_session() -> None:
     db.session.commit()
     db.session.close()
+
+def get_all_client() -> list[Client]:
+    return db.session.query(Client).join(Client.address).all()
+
+def get_one_by_email(table: object):
+    return table.query.filter_by(email=table.email).first()

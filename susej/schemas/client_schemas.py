@@ -24,7 +24,7 @@ class ClientSchemas(object):
                 "nome": fields.String(description='Nome do Cliente', required=True),
                 "sobrenome": fields.String(description='sobrenome do Cliente', required=True),
                 "email": fields.String(description='E-mail do Cliente', required=True),
-                "address": fields.Nested(address_model)
+                "address": fields.List(fields.Nested(address_model))
             }
         )
         

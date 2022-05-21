@@ -1,6 +1,5 @@
 from flask import Blueprint, request
 from flask_restx import Api, Resource
-from susej.model.client_model import Client
 from susej.schemas.client_schemas import ClientSchemas
 
 from susej.services.client_service import ClientService

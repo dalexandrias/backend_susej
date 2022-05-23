@@ -50,17 +50,17 @@ class Client(db.Model, SerializerMixin):
     email = db.Column(db.String(200), nullable=False)
     address = db.relationship('ClientAddress', backref='CLIENT', lazy=True)
 
-    def __init__(
-        self,
-        nome: str,
-        sobrenome: str,
-        email: str,
-        address: list[ClientAddress]
-    ) -> None:
-        self.nome = nome
-        self.sobrenome = sobrenome
-        self.email = email
-        self.address = address
+    # def __init__(
+    #     self,
+    #     nome: str,
+    #     sobrenome: str,
+    #     email: str,
+    #     address: list[ClientAddress]
+    # ) -> None:
+    #     self.nome = nome
+    #     self.sobrenome = sobrenome
+    #     self.email = email
+    #     self.address = address
 
     def __repr__(self) -> str:
         return f"Client {self.nome}"

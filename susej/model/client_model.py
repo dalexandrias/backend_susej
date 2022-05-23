@@ -19,23 +19,23 @@ class ClientAddress(db.Model, SerializerMixin):
     cep = db.Column(db.String(200), nullable=False)
     id_client = db.Column(db.Integer, ForeignKey('CLIENT.id'))
 
-    def __init__(
-        self,
-        rua: str,
-        bairro: str,
-        numero: str,
-        complemento: str,
-        cidade: str,
-        estado: str,
-        cep: str
-    ) -> None:
-        self.rua = rua
-        self.bairro = bairro
-        self.numero = numero
-        self.complemento = complemento
-        self.cidade = cidade
-        self.estado = estado
-        self.cep = cep
+    # def __init__(
+    #     self,
+    #     rua: str,
+    #     bairro: str,
+    #     numero: str,
+    #     complemento: str,
+    #     cidade: str,
+    #     estado: str,
+    #     cep: str
+    # ) -> None:
+    #     self.rua = rua
+    #     self.bairro = bairro
+    #     self.numero = numero
+    #     self.complemento = complemento
+    #     self.cidade = cidade
+    #     self.estado = estado
+    #     self.cep = cep
 
     def __repr__(self) -> str:
         return f"Rua {self.rua}"

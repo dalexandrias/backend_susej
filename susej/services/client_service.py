@@ -12,15 +12,15 @@ class ClientService(object):
         pass
 
     def save_client(self, client_body: json) -> json:
-        
-        client_in = Client(client_body['nome'], client_body['sobrenome'], client_body['email'])
+
+        client_address = [ClientAddress(**client_address)
+                          for client_address in client_body['address']]
+        client_in = Client(nome=client_body['nome'], sobrenome=client_body['sobrenome'],
+                           email=client_body['email'], address=client_address)
 
         client_email = get_one_by_email(client_in)
         if not client_email:
             if validators.email(client_in.email):
-
-                [client_in.address.append(ClientAddress(**client_address)) for client_address in client_body.address]
-        
                 insert_table(client_in)
                 commit_session()
 
@@ -39,6 +39,6 @@ class ClientService(object):
                 "status": ERROR,
                 "message": EMAIL_ALREADY_EXISTS
             }, HTTPStatus.BAD_REQUEST
-        
+
     def get_all_client(self):
         return get_all_client()

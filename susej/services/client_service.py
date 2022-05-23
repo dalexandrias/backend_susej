@@ -8,6 +8,11 @@ from susej.model.client_model import Client, ClientAddress
 
 
 class ClientService(object):
+    """Executa os serviços do cliente, criando, atualizando ou deletando.
+
+    Args:
+        object (_type_): _description_
+    """
     def __init__(self) -> None:
         pass
 

@@ -4,10 +4,11 @@ from flask_restx import Api, fields
 class ClientSchemas(object):
     def __init__(self, api: Api) -> None:
         self.api = api
-
-    def new_client(self):
-        address_model = self.api.model(
-            'Client Address', {
+        
+    def client(self):
+        client_address_model = self.api.model(
+            'Address Client', {
+                "id": fields.Integer(description='ID do endereco'),
                 "rua": fields.String(description='rua do Cliente', required=True),
                 "bairro": fields.String(description='bairro do Cliente', required=True),
                 "numero": fields.String(description='numero do Cliente', required=True),
@@ -24,7 +25,7 @@ class ClientSchemas(object):
                 "nome": fields.String(description='Nome do Cliente', required=True),
                 "sobrenome": fields.String(description='sobrenome do Cliente', required=True),
                 "email": fields.String(description='E-mail do Cliente', required=True),
-                "address": fields.List(fields.Nested(address_model))
+                "address_data": fields.List(fields.Nested(client_address_model))               
             }
         )
         

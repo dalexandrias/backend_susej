@@ -1,3 +1,4 @@
+import json
 from flask_migrate import Migrate
 from sqlalchemy import ForeignKey
 from sqlalchemy_serializer import SerializerMixin
@@ -19,23 +20,23 @@ class ClientAddress(db.Model, SerializerMixin):
     cep = db.Column(db.String(200), nullable=False)
     id_client = db.Column(db.Integer, ForeignKey('CLIENT.id'))
 
-    # def __init__(
-    #     self,
-    #     rua: str,
-    #     bairro: str,
-    #     numero: str,
-    #     complemento: str,
-    #     cidade: str,
-    #     estado: str,
-    #     cep: str
-    # ) -> None:
-    #     self.rua = rua
-    #     self.bairro = bairro
-    #     self.numero = numero
-    #     self.complemento = complemento
-    #     self.cidade = cidade
-    #     self.estado = estado
-    #     self.cep = cep
+    def __init__(
+        self,
+        rua: str,
+        bairro: str,
+        numero: str,
+        complemento: str,
+        cidade: str,
+        estado: str,
+        cep: str
+    ) -> None:
+        self.rua = rua
+        self.bairro = bairro
+        self.numero = numero
+        self.complemento = complemento
+        self.cidade = cidade
+        self.estado = estado
+        self.cep = cep
 
     def __repr__(self) -> str:
         return f"Rua {self.rua}"
@@ -48,19 +49,19 @@ class Client(db.Model, SerializerMixin):
     nome = db.Column(db.String(100), nullable=False)
     sobrenome = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False)
-    address = db.relationship('ClientAddress', backref='CLIENT', lazy=True)
+    address_data = db.relationship('ClientAddress', backref='CLIENT', lazy=True)
 
-    # def __init__(
-    #     self,
-    #     nome: str,
-    #     sobrenome: str,
-    #     email: str,
-    #     address: list[ClientAddress]
-    # ) -> None:
-    #     self.nome = nome
-    #     self.sobrenome = sobrenome
-    #     self.email = email
-    #     self.address = address
+    def __init__(
+        self,
+        nome: str,
+        sobrenome: str,
+        email: str,
+        address_data: list[ClientAddress]
+    ) -> None:
+        self.nome = nome
+        self.sobrenome = sobrenome
+        self.email = email
+        self.address_data = [ClientAddress(**address) for address in address_data]
 
     def __repr__(self) -> str:
         return f"Client {self.nome}"

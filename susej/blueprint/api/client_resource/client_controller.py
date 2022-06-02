@@ -1,15 +1,24 @@
 from flask import Blueprint, request
-from flask_restx import Api, Resource
+from flask_restx import Api, Namespace, Resource
+from susej.exceptions.handler_error import handler_error_ns
 from susej.schemas.client_schemas import ClientSchemas
 
 from susej.services.client_service import ClientService
 
 bp = Blueprint('client', __name__, url_prefix='/client/api/v1')
-api = Api(bp, version='1.0', title='Client API',
+api_client = Api(bp, version='1.0', title='Client API',
           description='API para controle dos clientes')
-client_ns = api.namespace(
+
+client_ns = Namespace(
     'client', description='Controle do fluxo das operações para os clientes')
-client_schemas = ClientSchemas(api)
+
+# Registro dos namespace na Api
+api_client.add_namespace(client_ns)
+api_client.add_namespace(handler_error_ns) 
+
+
+# Injeção dos serviços
+client_schemas = ClientSchemas(api_client)
 client_service = ClientService()
 
 
@@ -20,13 +29,11 @@ class CreateClient(Resource):
     Args:
         Resource (_type_): Herda a lib flask restx
     """
-
+    
     @client_ns.expect(client_schemas.client(), validate=True)
     @client_ns.marshal_with(client_schemas.out_client(), code=201, envelope='Client')
-    def post(self):
-        client_in = request.get_json()
-
-        return client_service.save_client(client_in)
+    def post(self): 
+        return client_service.save_client(request.get_json())
 
     @client_ns.marshal_with(client_schemas.client(), code=200, envelope='Client')
     def get(self):
@@ -47,5 +54,6 @@ class ClientId(Resource):
     def put(self, id: int):
         return client_service.update_client(request.get_json(), id)
 
-    def delete(self):
-        ...
+    @client_ns.marshal_with(client_schemas.out_client(), code=200)
+    def delete(self, id: int):
+        return client_service.delete_client(id)

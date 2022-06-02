@@ -2,7 +2,7 @@ from http import HTTPStatus
 import json
 
 import validators
-from susej.exceptions.error import AuthError
+from susej.exceptions.error import ClientError
 from susej.commands_dml.commands import commit_session, delete_one_by_id_client, get_all_client, get_one_by_email, insert_table, get_one_by_id_client, update_client
 from susej.constants.status_return import CREATED_CLIENT, DELETE_CLIENT, EMAIL_ALREADY_EXISTS, EMAIL_INVALID, ERROR, ID_NOT_FOUND, SUCCESS, UPDATE_CLIENT
 from susej.model.client_model import Client, ClientAddress
@@ -33,10 +33,10 @@ class ClientService(object):
                     "message": CREATED_CLIENT
                 }, HTTPStatus.CREATED
             else:
-                raise AuthError(EMAIL_INVALID)
+                raise ClientError(EMAIL_INVALID)
 
         else:
-            raise AuthError(EMAIL_ALREADY_EXISTS)
+            raise ClientError(EMAIL_ALREADY_EXISTS)
 
     def update_client(self, client_body: json, id: int) -> json:
 
@@ -58,15 +58,9 @@ class ClientService(object):
                     "message": UPDATE_CLIENT
                 }, HTTPStatus.CREATED
             else:
-                return {
-                    "status": ERROR,
-                    "message": EMAIL_INVALID
-                }, HTTPStatus.BAD_REQUEST
+                raise ClientError(EMAIL_INVALID)
         else:
-            return {
-                "status": ERROR,
-                "message": ID_NOT_FOUND
-            }, HTTPStatus.BAD_REQUEST
+            raise ClientError(ID_NOT_FOUND)
 
     def get_all_client(self) -> list[Client]:
         return get_all_client()

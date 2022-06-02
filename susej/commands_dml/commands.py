@@ -37,3 +37,8 @@ def get_one_by_email(table: object):
 
 def get_one_by_id_client(id: int) -> Client:
     return db.session.query(Client).get(id)
+
+def delete_one_by_id_client(id: int) -> None:
+    client = Client.query.filter_by(id=id).first()
+    ClientAddress.query.filter_by(id_client=client.id).delete()
+    db.session.delete(client)
